@@ -197,6 +197,31 @@ if vim.api.nvim_call_function("has", { "nvim-0.8" }) == 1 then
         ["@variable"] = {fg = c.fg, fmt = cfg.code_style.variables},
         ["@variable.builtin"] = {fg = c.red, fmt = cfg.code_style.variables},
     }
+    if vim.api.nvim_call_function("has", { "nvim-0.9" }) == 1 then
+        hl.lsp = {
+            ["@lsp.type.comment"] = hl.treesitter[ "@comment"],
+            ["@lsp.type.enum"] = hl.treesitter["@type"],
+            ["@lsp.type.enumMember"] = hl.treesitter["@constant.builtin"],
+            ["@lsp.type.interface"] = hl.treesitter["@type"],
+            ["@lsp.type.typeParameter"] = hl.treesitter["@type"],
+            ["@lsp.type.keyword"] = hl.treesitter["@keyword"],
+            ["@lsp.type.namespace"] = hl.treesitter["@namespace"],
+            ["@lsp.type.parameter"] = hl.treesitter["@parameter"],
+            ["@lsp.type.property"] = hl.treesitter["@property"],
+            ["@lsp.type.variable"] = hl.treesitter["@variable"],
+            ["@lsp.type.macro"] = hl.treesitter["@function.macro"],
+            ["@lsp.type.method"] = hl.treesitter["@method"],
+            ["@lsp.type.number"] = hl.treesitter["@number"],
+            ["@lsp.type.generic"] = hl.treesitter["@text"],
+            ["@lsp.type.builtinType"] = hl.treesitter["@type.builtin"],
+            ["@lsp.typemod.method.defaultLibrary"] = hl.treesitter["@function"],
+            ["@lsp.typemod.function.defaultLibrary"] = hl.treesitter["@function"],
+            ["@lsp.typemod.operator.injected"] = hl.treesitter["@operator"],
+            ["@lsp.typemod.string.injected"] = hl.treesitter["@string"],
+            ["@lsp.typemod.variable.defaultLibrary"] = hl.treesitter["@variable.builtin"],
+            ["@lsp.typemod.variable.injected"] = hl.treesitter["@variable"],
+        }
+    end
 else
     hl.treesitter = {
         TSAnnotation = colors.Fg,
@@ -484,13 +509,23 @@ hl.plugins.navic = {
 }
 
 hl.plugins.ts_rainbow = {
-    rainbowcol1 = colors.Grey,
+    rainbowcol1 = colors.LightGrey,
     rainbowcol2 = colors.Yellow,
     rainbowcol3 = colors.Blue,
     rainbowcol4 = colors.Orange,
     rainbowcol5 = colors.Purple,
     rainbowcol6 = colors.Green,
     rainbowcol7 = colors.Red
+}
+
+hl.plugins.ts_rainbow2 = {
+    TSRainbowRed = colors.Red,
+    TSRainbowYellow = colors.Yellow,
+    TSRainbowBlue = colors.Blue,
+    TSRainbowOrange = colors.Orange,
+    TSRainbowGreen = colors.Green,
+    TSRainbowViolet = colors.Purple,
+    TSRainbowCyan = colors.Cyan,
 }
 
 hl.plugins.indent_blankline = {
@@ -716,6 +751,9 @@ function M.setup()
     vim_highlights(hl.common)
     vim_highlights(hl.syntax)
     vim_highlights(hl.treesitter)
+    if hl.lsp then
+        vim_highlights(hl.lsp)
+    end
     for _, group in pairs(hl.langs) do vim_highlights(group) end
     for _, group in pairs(hl.plugins) do vim_highlights(group) end
 
